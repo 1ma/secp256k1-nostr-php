@@ -1,0 +1,23 @@
+{
+    "name": "uma/schnorr-php-ext",
+    "description": "secp256k1 PHP bindings for Nostr",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "bitcoin-core/secp256k1": "^0.3.0"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "bitcoin-core/secp256k1",
+                "version": "0.3.2",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/bitcoin-core/secp256k1",
+                    "reference": "v0.3.2"
+                }
+            }
+        }
+    ]
+}
