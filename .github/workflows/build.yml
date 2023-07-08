@@ -15,4 +15,4 @@ jobs:
       - name: Test PHP extension
         run: |
           sudo apt-get install valgrind
-          make -C ext test TESTS="-q -m"
+          make check

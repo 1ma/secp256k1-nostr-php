@@ -4,7 +4,18 @@ Check if secp256k1_nostr is loaded
 secp256k1_nostr
 --FILE--
 <?php
-echo 'The extension "secp256k1_nostr" is available';
+try {
+    secp256k1_nostr_derive_pubkey(hex2bin('deadbeef'));
+} catch (\InvalidArgumentException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
+
+try {
+    secp256k1_nostr_derive_pubkey(hex2bin('0000000000000000000000000000000000000000000000000000000000000000'));
+} catch (\InvalidArgumentException $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
 ?>
 --EXPECT--
-The extension "secp256k1_nostr" is available
+secp256k1_nostr_derive_pubkey(): Parameter 1 should be 32 bytes
+secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid private key

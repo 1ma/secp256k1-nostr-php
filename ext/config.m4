@@ -12,5 +12,5 @@ if test "$PHP_SECP256K1_NOSTR" != "no"; then
 
   AC_DEFINE(HAVE_SECP256K1_NOSTR, 1, [ Have secp256k1_nostr support ])
 
-  PHP_NEW_EXTENSION(secp256k1_nostr, hex.c secp256k1_nostr.c, $ext_shared)
+  PHP_NEW_EXTENSION(secp256k1_nostr, secp256k1_nostr.c, $ext_shared)
 fi
