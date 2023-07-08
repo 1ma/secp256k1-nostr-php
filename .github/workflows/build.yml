@@ -13,4 +13,6 @@ jobs:
         run: |
           make secp256k1 ext
       - name: Test PHP extension
-        run: make -C ext test NO_INTERACTION=1
+        run: |
+          sudo apt install valgrind
+          make -C ext test TESTS="-q -m"
