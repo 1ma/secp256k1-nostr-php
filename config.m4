@@ -90,5 +90,8 @@ if test "$PHP_SCHNORR_NOSTR" != "no"; then
   dnl In case of no dependencies
   AC_DEFINE(HAVE_SCHNORR_NOSTR, 1, [ Have schnorr_nostr support ])
 
+  PHP_ADD_INCLUDE(vendor/bitcoin-core/secp256k1/include)
+  PHP_ADD_LIBRARY_WITH_PATH(secp256k1, vendor/bitcoin-core/secp256k1/.libs/libsecp256k1.a, SECP256K1_SHARED_LIBADD)
+
   PHP_NEW_EXTENSION(schnorr_nostr, schnorr_nostr.c, $ext_shared)
 fi

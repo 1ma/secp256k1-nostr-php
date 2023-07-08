@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+      - run: composer install
+      - run: make -C samples secp256k1
       - run: phpize
       - run: ./configure
       - run: make
+      - run: sudo make install
+      - run: php -dextension=schnorr_nostr.so -r "test1();"

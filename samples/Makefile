@@ -41,5 +41,5 @@ secp256k1:
 	composer -d .. install
 	cd ../vendor/bitcoin-core/secp256k1 && \
 	./autogen.sh && \
-	./configure
+	./configure --with-pic
 	make -C ../vendor/bitcoin-core/secp256k1 -j$(shell nproc)
