@@ -1,4 +1,4 @@
-/* schnorr_nostr extension for PHP */
+/* secp256k1_nostr extension for PHP */
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -6,8 +6,8 @@
 
 #include "php.h"
 #include "ext/standard/info.h"
-#include "php_schnorr_nostr.h"
-#include "schnorr_nostr_arginfo.h"
+#include "php_secp256k1_nostr.h"
+#include "secp256k1_nostr_arginfo.h"
 
 #include <assert.h>
 #include <secp256k1.h>
@@ -49,7 +49,7 @@ PHP_FUNCTION(test1)
 
     assert(secp256k1_schnorrsig_verify(secp256k1_context_static, signature, message, sizeof(message), &xonly_pubkey));
 
-    php_printf("The extension %s is loaded and working!\r\n", "schnorr_nostr");
+    php_printf("The extension %s is loaded and working!\r\n", "secp256k1_nostr");
 }
 /* }}} */
 
@@ -72,9 +72,9 @@ PHP_FUNCTION(test2)
 /* }}}*/
 
 /* {{{ PHP_RINIT_FUNCTION */
-PHP_RINIT_FUNCTION(schnorr_nostr)
+PHP_RINIT_FUNCTION(secp256k1_nostr)
 {
-#if defined(ZTS) && defined(COMPILE_DL_SCHNORR_NOSTR)
+#if defined(ZTS) && defined(COMPILE_DL_SECP256K1_NOSTR)
 	ZEND_TSRMLS_CACHE_UPDATE();
 #endif
 
@@ -83,32 +83,32 @@ PHP_RINIT_FUNCTION(schnorr_nostr)
 /* }}} */
 
 /* {{{ PHP_MINFO_FUNCTION */
-PHP_MINFO_FUNCTION(schnorr_nostr)
+PHP_MINFO_FUNCTION(secp256k1_nostr)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, "schnorr_nostr support", "enabled");
+	php_info_print_table_header(2, "secp256k1_nostr support", "enabled");
 	php_info_print_table_end();
 }
 /* }}} */
 
-/* {{{ schnorr_nostr_module_entry */
-zend_module_entry schnorr_nostr_module_entry = {
+/* {{{ secp256k1_nostr_module_entry */
+zend_module_entry secp256k1_nostr_module_entry = {
 	STANDARD_MODULE_HEADER,
-	"schnorr_nostr",					/* Extension name */
+	"secp256k1_nostr",					/* Extension name */
 	ext_functions,					/* zend_function_entry */
 	NULL,							/* PHP_MINIT - Module initialization */
 	NULL,							/* PHP_MSHUTDOWN - Module shutdown */
-	PHP_RINIT(schnorr_nostr),			/* PHP_RINIT - Request initialization */
+	PHP_RINIT(secp256k1_nostr),			/* PHP_RINIT - Request initialization */
 	NULL,							/* PHP_RSHUTDOWN - Request shutdown */
-	PHP_MINFO(schnorr_nostr),			/* PHP_MINFO - Module info */
-	PHP_SCHNORR_NOSTR_VERSION,		/* Version */
+	PHP_MINFO(secp256k1_nostr),			/* PHP_MINFO - Module info */
+	PHP_SECP256K1_NOSTR_VERSION,		/* Version */
 	STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 
-#ifdef COMPILE_DL_SCHNORR_NOSTR
+#ifdef COMPILE_DL_SECP256K1_NOSTR
 # ifdef ZTS
 ZEND_TSRMLS_CACHE_DEFINE()
 # endif
-ZEND_GET_MODULE(schnorr_nostr)
+ZEND_GET_MODULE(secp256k1_nostr)
 #endif

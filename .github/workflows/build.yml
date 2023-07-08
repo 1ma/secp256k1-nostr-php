@@ -1,16 +1,16 @@
-name: Build schnorr_nostr extension
+name: Continuous Integration
 
 on: push
 
 jobs:
-  build:
+  run:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - run: composer install
-      - run: make -C samples secp256k1
-      - run: phpize
-      - run: ./configure
-      - run: make
-      - run: sudo make install
-      - run: php -dextension=schnorr_nostr.so -r "test1();"
+        with:
+          submodules: recursive
+      - name: Build secp256k1 and PHP extension
+        run: |
+          make secp256k1 ext
+      - name: Test PHP extension
+        run: make -C ext test NO_INTERACTION=1

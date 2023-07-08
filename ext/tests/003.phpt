@@ -1,7 +1,7 @@
 --TEST--
 test2() Basic test
 --EXTENSIONS--
-schnorr_nostr
+secp256k1_nostr
 --FILE--
 <?php
 var_dump(test2());

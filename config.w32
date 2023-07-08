@@ -1,7 +1,0 @@
-ARG_ENABLE('schnorr_nostr', 'schnorr_nostr support', 'no');
-
-if (PHP_SCHNORR_NOSTR != 'no') {
-	AC_DEFINE('HAVE_SCHNORR_NOSTR', 1, 'schnorr_nostr support enabled');
-
-	EXTENSION('schnorr_nostr', 'schnorr_nostr.c', null, '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1');
-}

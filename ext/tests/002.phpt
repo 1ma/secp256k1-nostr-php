@@ -1,7 +1,7 @@
 --TEST--
 test1() Basic test
 --EXTENSIONS--
-schnorr_nostr
+secp256k1_nostr
 --FILE--
 <?php
 $ret = test1();
@@ -9,5 +9,5 @@ $ret = test1();
 var_dump($ret);
 ?>
 --EXPECT--
-The extension schnorr_nostr is loaded and working!
+The extension secp256k1_nostr is loaded and working!
 NULL
