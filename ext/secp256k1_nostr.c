@@ -11,6 +11,7 @@
 
 #include <assert.h>
 #include <secp256k1.h>
+#include <secp256k1_extrakeys.h>
 #include <secp256k1_schnorrsig.h>
 
 /* For compatibility with older PHP versions */
@@ -19,6 +20,35 @@
 	ZEND_PARSE_PARAMETERS_START(0, 0) \
 	ZEND_PARSE_PARAMETERS_END()
 #endif
+
+PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
+{
+    secp256k1_context* ctx;
+    secp256k1_keypair keypair;
+    secp256k1_xonly_pubkey xonly_pubkey;
+
+    char *pubkey;
+    char *seckey;
+    size_t seckey_len;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_STRING(seckey, seckey_len)
+    ZEND_PARSE_PARAMETERS_END();
+
+    if (seckey_len != 64) {
+        // TODO throw error
+    }
+
+    // TODO run seckey through hex2bin
+
+    ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
+    assert(secp256k1_keypair_create(ctx, &keypair, seckey));
+    assert(secp256k1_keypair_xonly_pub(ctx, &xonly_pubkey, NULL, &keypair));
+    assert(secp256k1_xonly_pubkey_serialize(ctx, pubkey, &xonly_pubkey));
+
+    // TODO run pubkey through bin2hex
+    // TODO return hexed pubkey
+}
 
 /* {{{ void test1() */
 PHP_FUNCTION(test1)
@@ -72,7 +102,7 @@ PHP_FUNCTION(test2)
 /* }}}*/
 
 /* {{{ PHP_RINIT_FUNCTION */
-PHP_RINIT_FUNCTION(secp256k1_nostr)
+PHP_MINIT_FUNCTION(secp256k1_nostr)
 {
 #if defined(ZTS) && defined(COMPILE_DL_SECP256K1_NOSTR)
 	ZEND_TSRMLS_CACHE_UPDATE();
@@ -96,9 +126,9 @@ zend_module_entry secp256k1_nostr_module_entry = {
 	STANDARD_MODULE_HEADER,
 	"secp256k1_nostr",					/* Extension name */
 	ext_functions,					/* zend_function_entry */
-	NULL,							/* PHP_MINIT - Module initialization */
+	PHP_MINIT(secp256k1_nostr),			/* PHP_MINIT - Module initialization */
 	NULL,							/* PHP_MSHUTDOWN - Module shutdown */
-	PHP_RINIT(secp256k1_nostr),			/* PHP_RINIT - Request initialization */
+	NULL,			/* PHP_RINIT - Request initialization */
 	NULL,							/* PHP_RSHUTDOWN - Request shutdown */
 	PHP_MINFO(secp256k1_nostr),			/* PHP_MINFO - Module info */
 	PHP_SECP256K1_NOSTR_VERSION,		/* Version */
