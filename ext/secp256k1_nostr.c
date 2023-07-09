@@ -32,7 +32,7 @@ PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
     secp256k1_context* ctx;
     secp256k1_keypair keypair;
     secp256k1_xonly_pubkey xonly_pubkey;
-    unsigned char pubkey[32];
+    unsigned char tmp[32];
 
     ZEND_PARSE_PARAMETERS_START(1, 1)
         Z_PARAM_STR(in_seckey)
@@ -43,17 +43,30 @@ PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
         return;
     }
 
-    ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
-    if(!secp256k1_keypair_create(ctx, &keypair, (unsigned char *)ZSTR_VAL(in_seckey))) {
-        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid private key");
+    if (php_random_bytes_throw(tmp, sizeof(tmp)) == FAILURE) {
+        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_derive_pubkey(): Error fetching entropy for context randomization");
         return;
     }
 
-    secp256k1_keypair_xonly_pub(ctx, &xonly_pubkey, NULL, &keypair);
-    secp256k1_xonly_pubkey_serialize(ctx, pubkey, &xonly_pubkey);
+    ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
+    if (!secp256k1_context_randomize(ctx, tmp)) {
+        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_derive_pubkey(): Error randomizing secp256k1 context");
+        secp256k1_context_destroy(ctx);
+        return;
+    }
+
+    if (!secp256k1_keypair_create(ctx, &keypair, (unsigned char *)ZSTR_VAL(in_seckey))) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid private key");
+        secp256k1_context_destroy(ctx);
+        return;
+    }
+
+    // secp256k1_keypair_xonly_pub() always returns 1. The variable only exists to please GCC 11.3
+    int one = secp256k1_keypair_xonly_pub(ctx, &xonly_pubkey, NULL, &keypair);
+    secp256k1_xonly_pubkey_serialize(ctx, tmp, &xonly_pubkey);
     secp256k1_context_destroy(ctx);
 
-    out_pubkey = zend_string_init(pubkey, sizeof(pubkey), 0);
+    out_pubkey = zend_string_init(tmp, sizeof(tmp), 0);
 
     RETURN_STR(out_pubkey);
 }
@@ -84,18 +97,36 @@ PHP_FUNCTION(secp256k1_nostr_sign)
         return;
     }
 
+    if (php_random_bytes_throw(auxiliary_rand, sizeof(auxiliary_rand)) == FAILURE) {
+        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_sign(): Error fetching entropy for context randomization");
+        return;
+    }
+
     ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
-    if(!secp256k1_keypair_create(ctx, &keypair, (unsigned char *)ZSTR_VAL(in_seckey))) {
+    if (!secp256k1_context_randomize(ctx, auxiliary_rand)) {
+        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_sign(): Error randomizing secp256k1 context");
+        secp256k1_context_destroy(ctx);
+        return;
+    }
+
+    if (!secp256k1_keypair_create(ctx, &keypair, (unsigned char *)ZSTR_VAL(in_seckey))) {
         zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_sign(): Parameter 1 is not a valid private key");
+        secp256k1_context_destroy(ctx);
         return;
     }
 
-    if(php_random_bytes_throw(auxiliary_rand, sizeof(auxiliary_rand)) == FAILURE) {
-        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_sign(): Error fetching entropy");
+    if (php_random_bytes_throw(auxiliary_rand, sizeof(auxiliary_rand)) == FAILURE) {
+        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_sign(): Error fetching entropy for Schnorr signature");
+        secp256k1_context_destroy(ctx);
         return;
     }
 
-    secp256k1_schnorrsig_sign32(ctx, signature, (unsigned char *)ZSTR_VAL(in_message), &keypair, auxiliary_rand);
+    if (!secp256k1_schnorrsig_sign32(ctx, signature, (unsigned char *)ZSTR_VAL(in_message), &keypair, auxiliary_rand)) {
+        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_sign(): Unexpected error generating signature. Please open an issue at https://github.com/1ma/secp256k1-nostr-php-ext/issues");
+        secp256k1_context_destroy(ctx);
+        return;
+    }
+
     secp256k1_context_destroy(ctx);
 
     out_signature = zend_string_init(signature, sizeof(signature), 0);
@@ -123,7 +154,7 @@ PHP_FUNCTION(secp256k1_nostr_verify)
     }
 
     secp256k1_selftest();
-    if(!secp256k1_xonly_pubkey_parse(secp256k1_context_static, &xonly_pubkey, (unsigned char *)ZSTR_VAL(in_pubkey))) {
+    if (!secp256k1_xonly_pubkey_parse(secp256k1_context_static, &xonly_pubkey, (unsigned char *)ZSTR_VAL(in_pubkey))) {
         zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_verify(): Parameter 1 is not a valid public key");
         return;
     }
