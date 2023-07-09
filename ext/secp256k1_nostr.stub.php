@@ -10,6 +10,15 @@
  */
 function secp256k1_nostr_derive_pubkey(string $privateKey): string {}
 
-function test1(): void {}
+/**
+ * @throws \InvalidArgumentException If $privateKey is not a valid 32 byte secret
+ * @throws \InvalidArgumentException If $hash is not 32 bytes long
+ */
+function secp256k1_nostr_sign(string $privateKey, string $hash): string {}
 
-function test2(string $str = ""): string {}
+/**
+ * @throws \InvalidArgumentException If $publicKey is not 32 bytes long
+ * @throws \InvalidArgumentException If   $message is not 32 bytes long
+ * @throws \InvalidArgumentException If $signature is not 64 bytes long
+ */
+function secp256k1_nostr_verify(string $publicKey, string $message, string $signature): bool {}

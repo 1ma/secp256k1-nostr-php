@@ -4,16 +4,18 @@
 # include "config.h"
 #endif
 
+#include "php.h"
 #include "ext/spl/spl_exceptions.h"
 #include "ext/standard/info.h"
-#include "php.h"
-#include "php_secp256k1_nostr.h"
-#include "secp256k1_nostr_arginfo.h"
+#include "ext/standard/php_random.h"
 #include "zend_exceptions.h"
 
-#include <secp256k1.h>
-#include <secp256k1_extrakeys.h>
-#include <secp256k1_schnorrsig.h>
+#include "secp256k1_nostr_arginfo.h"
+#include "php_secp256k1_nostr.h"
+
+#include "secp256k1.h"
+#include "secp256k1_extrakeys.h"
+#include "secp256k1_schnorrsig.h"
 
 /* For compatibility with older PHP versions */
 #ifndef ZEND_PARSE_PARAMETERS_NONE
@@ -24,8 +26,8 @@
 
 PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
 {
-    zend_string* input;
-    zend_string* output;
+    zend_string* in_seckey;
+    zend_string* out_pubkey;
 
     secp256k1_context* ctx;
     secp256k1_keypair keypair;
@@ -33,16 +35,16 @@ PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
     unsigned char pubkey[32];
 
     ZEND_PARSE_PARAMETERS_START(1, 1)
-        Z_PARAM_STR(input)
+        Z_PARAM_STR(in_seckey)
     ZEND_PARSE_PARAMETERS_END();
 
-    if (ZSTR_LEN(input) != 32) {
-        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 should be 32 bytes");
+    if (ZSTR_LEN(in_seckey) != 32) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 is not 32 bytes long");
         return;
     }
 
     ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
-    if(!secp256k1_keypair_create(ctx, &keypair, (unsigned char *)ZSTR_VAL(input))) {
+    if(!secp256k1_keypair_create(ctx, &keypair, (unsigned char *)ZSTR_VAL(in_seckey))) {
         zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid private key");
         return;
     }
@@ -51,37 +53,62 @@ PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
     secp256k1_xonly_pubkey_serialize(ctx, pubkey, &xonly_pubkey);
     secp256k1_context_destroy(ctx);
 
-    output = zend_string_init(pubkey, sizeof(pubkey), 0);
+    out_pubkey = zend_string_init(pubkey, sizeof(pubkey), 0);
 
-    RETURN_STR(output);
+    RETURN_STR(out_pubkey);
 }
 
-/* {{{ void test1() */
-PHP_FUNCTION(test1)
+PHP_FUNCTION(secp256k1_nostr_sign)
 {
-    ZEND_PARSE_PARAMETERS_NONE();
+    zend_string* in_seckey;
+    zend_string* in_message;
+    zend_string* out_signature;
 
-    php_printf("The extension %s is loaded and working!\r\n", "secp256k1_nostr");
+    secp256k1_context* ctx;
+    secp256k1_keypair keypair;
+    unsigned char auxiliary_rand[32];
+    unsigned char signature[64];
+
+    ZEND_PARSE_PARAMETERS_START(2, 2)
+        Z_PARAM_STR(in_seckey)
+        Z_PARAM_STR(in_message)
+    ZEND_PARSE_PARAMETERS_END();
+
+    if (ZSTR_LEN(in_seckey) != 32) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_sign(): Parameter 1 is not 32 bytes long");
+        return;
+    }
+
+    if (ZSTR_LEN(in_message) != 32) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_sign(): Parameter 2 is not 32 bytes long");
+        return;
+    }
+
+    ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
+    if(!secp256k1_keypair_create(ctx, &keypair, (unsigned char *)ZSTR_VAL(in_seckey))) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid private key");
+        return;
+    }
+    
+    if(php_random_bytes_throw(auxiliary_rand, sizeof(auxiliary_rand)) == FAILURE) {
+        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_derive_pubkey(): Error fetching entropy");
+        return;
+    }
+
+    secp256k1_schnorrsig_sign32(ctx, signature, (unsigned char *)ZSTR_VAL(in_message), &keypair, auxiliary_rand);
+
+    out_signature = zend_string_init(signature, sizeof(signature), 0);
+
+    RETURN_STR(out_signature);
 }
-/* }}} */
 
-/* {{{ string test2( [ string $var ] ) */
-PHP_FUNCTION(test2)
+PHP_FUNCTION(secp256k1_nostr_verify)
 {
-	char *var = "World";
-	size_t var_len = sizeof("World") - 1;
-	zend_string *retval;
+    zend_string *out;
+    out = zend_string_init("hola :)", 7, 0);
 
-	ZEND_PARSE_PARAMETERS_START(0, 1)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_STRING(var, var_len)
-	ZEND_PARSE_PARAMETERS_END();
-
-	retval = strpprintf(0, "Hello %s", var);
-
-	RETURN_STR(retval);
+    RETURN_STR(out);
 }
-/* }}}*/
 
 /* {{{ PHP_MINIT_FUNCTION */
 PHP_MINIT_FUNCTION(secp256k1_nostr)

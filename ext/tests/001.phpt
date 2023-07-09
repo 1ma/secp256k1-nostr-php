@@ -17,5 +17,5 @@ try {
 }
 ?>
 --EXPECT--
-secp256k1_nostr_derive_pubkey(): Parameter 1 should be 32 bytes
+secp256k1_nostr_derive_pubkey(): Parameter 1 is not 32 bytes long
 secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid private key
