@@ -86,12 +86,12 @@ PHP_FUNCTION(secp256k1_nostr_sign)
 
     ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE);
     if(!secp256k1_keypair_create(ctx, &keypair, (unsigned char *)ZSTR_VAL(in_seckey))) {
-        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid private key");
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_sign(): Parameter 1 is not a valid private key");
         return;
     }
-    
+
     if(php_random_bytes_throw(auxiliary_rand, sizeof(auxiliary_rand)) == FAILURE) {
-        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_derive_pubkey(): Error fetching entropy");
+        zend_throw_exception_ex(spl_ce_RuntimeException, 0, "secp256k1_nostr_sign(): Error fetching entropy");
         return;
     }
 
@@ -117,19 +117,24 @@ PHP_FUNCTION(secp256k1_nostr_verify)
         Z_PARAM_STR(in_signature)
     ZEND_PARSE_PARAMETERS_END();
 
+    if (ZSTR_LEN(in_pubkey) != 32) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_verify(): Parameter 1 is not 32 bytes long");
+        return;
+    }
+
     secp256k1_selftest();
-    if(secp256k1_xonly_pubkey_parse(secp256k1_context_static, &xonly_pubkey, (unsigned char *)ZSTR_VAL(in_pubkey))) {
-        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid public key");
+    if(!secp256k1_xonly_pubkey_parse(secp256k1_context_static, &xonly_pubkey, (unsigned char *)ZSTR_VAL(in_pubkey))) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_verify(): Parameter 1 is not a valid public key");
         return;
     }
 
     if (ZSTR_LEN(in_message) != 32) {
-        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_sign(): Parameter 2 is not 32 bytes long");
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_verify(): Parameter 2 is not 32 bytes long");
         return;
     }
 
     if (ZSTR_LEN(in_signature) != 64) {
-        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_sign(): Parameter 3 is not 64 bytes long");
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_verify(): Parameter 3 is not 64 bytes long");
         return;
     }
 
