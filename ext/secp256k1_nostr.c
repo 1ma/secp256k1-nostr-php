@@ -96,6 +96,7 @@ PHP_FUNCTION(secp256k1_nostr_sign)
     }
 
     secp256k1_schnorrsig_sign32(ctx, signature, (unsigned char *)ZSTR_VAL(in_message), &keypair, auxiliary_rand);
+    secp256k1_context_destroy(ctx);
 
     out_signature = zend_string_init(signature, sizeof(signature), 0);
 
@@ -104,10 +105,39 @@ PHP_FUNCTION(secp256k1_nostr_sign)
 
 PHP_FUNCTION(secp256k1_nostr_verify)
 {
-    zend_string *out;
-    out = zend_string_init("hola :)", 7, 0);
+    zend_string *in_pubkey;
+    zend_string *in_message;
+    zend_string *in_signature;
 
-    RETURN_STR(out);
+    secp256k1_xonly_pubkey xonly_pubkey;
+
+    ZEND_PARSE_PARAMETERS_START(3, 3)
+        Z_PARAM_STR(in_pubkey)
+        Z_PARAM_STR(in_message)
+        Z_PARAM_STR(in_signature)
+    ZEND_PARSE_PARAMETERS_END();
+
+    secp256k1_selftest();
+    if(secp256k1_xonly_pubkey_parse(secp256k1_context_static, &xonly_pubkey, (unsigned char *)ZSTR_VAL(in_pubkey))) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_derive_pubkey(): Parameter 1 is not a valid public key");
+        return;
+    }
+
+    if (ZSTR_LEN(in_message) != 32) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_sign(): Parameter 2 is not 32 bytes long");
+        return;
+    }
+
+    if (ZSTR_LEN(in_signature) != 64) {
+        zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "secp256k1_nostr_sign(): Parameter 3 is not 64 bytes long");
+        return;
+    }
+
+    if (!secp256k1_schnorrsig_verify(secp256k1_context_static, (unsigned char *)ZSTR_VAL(in_signature), (unsigned char *)ZSTR_VAL(in_message), ZSTR_LEN(in_message), &xonly_pubkey)) {
+        RETURN_FALSE;
+    }
+
+    RETURN_TRUE;
 }
 
 /* {{{ PHP_MINIT_FUNCTION */
