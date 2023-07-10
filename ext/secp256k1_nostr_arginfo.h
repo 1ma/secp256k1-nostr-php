@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 4dd5acc2b162cae57e010b7b7aa67c3b4d89578e */
+ * Stub hash: 4346430733870d2ceb84486b54608f383921af44 */
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_secp256k1_nostr_derive_pubkey, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, privateKey, IS_STRING, 0)
@@ -12,7 +12,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_secp256k1_nostr_verify, 0, 3, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, publicKey, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, hash, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, signature, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
