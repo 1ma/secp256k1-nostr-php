@@ -1,7 +1,8 @@
-PHP_ARG_WITH([secp256k1_nostr],
-  [for secp256k1_nostr support],
-  [AS_HELP_STRING([--with-secp256k1_nostr],
-    [Include secp256k1_nostr support])])
+PHP_ARG_ENABLE([secp256k1_nostr],
+  [whether to enable secp256k1_nostr support],
+  [AS_HELP_STRING([--enable-secp256k1_nostr],
+    [Enable secp256k1_nostr support])],
+  [no])
 
 if test "$PHP_SECP256K1_NOSTR" != "no"; then
   PKG_CHECK_MODULES([LIBSECP256K1], [libsecp256k1 = 0.3.2])
