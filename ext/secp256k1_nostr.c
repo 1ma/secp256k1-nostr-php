@@ -230,7 +230,6 @@ PHP_FUNCTION(secp256k1_nostr_verify)
         return;
     }
 
-    secp256k1_selftest();
     if (!secp256k1_xonly_pubkey_parse(secp256k1_context_static, &xonly_pubkey, (unsigned char *)ZSTR_VAL(binary_pubkey))) {
         zend_string_efree(binary_pubkey);
         zend_string_efree(binary_hash);
@@ -258,6 +257,8 @@ PHP_MINIT_FUNCTION(secp256k1_nostr)
 #if defined(ZTS) && defined(COMPILE_DL_SECP256K1_NOSTR)
 	ZEND_TSRMLS_CACHE_UPDATE();
 #endif
+
+	secp256k1_selftest();
 
 	return SUCCESS;
 }
