@@ -1,6 +1,6 @@
 # secp256k1_nostr extension for PHP
 
-[![Continuous Integration](https://github.com/1ma/schnorr-php-ext/actions/workflows/build.yml/badge.svg)](https://github.com/1ma/schnorr-php-ext/actions/workflows/build.yml)
+[![CI](https://github.com/1ma/secp256k1-nostr-php/actions/workflows/ci.yml/badge.svg)](https://github.com/1ma/secp256k1-nostr-php/actions/workflows/ci.yml)
 
 `secp256k1_nostr` is a PHP extension to validate [Nostr](https://nostr-resources.com/) events in accordance to [NIP-01](https://github.com/nostr-protocol/nips/blob/master/01.md).
 
