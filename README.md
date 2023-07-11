@@ -64,7 +64,7 @@ Nevertheless, only the first step might be a bit different on other Linux distri
 
     ```shell
     $ make secp256k1 ext
-    $ sudo make -C ext install
+    $ sudo make install
     ```
 
 4. Append `extension=secp256k1_nostr.so` to your php.ini file. Note that often the PHP CLI and PHP-FPM have

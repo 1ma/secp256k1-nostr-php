@@ -1,4 +1,4 @@
-.PHONY: ext secp256k1 check clean
+.PHONY: ext secp256k1 check install clean
 
 ext:
 	cd ext && \
@@ -23,6 +23,9 @@ secp256k1:
 
 check:
 	make -C ext test TESTS="-q -m --show-diff --show-mem"
+
+install:
+	make -C ext install
 
 clean:
 	make -C ext clean
