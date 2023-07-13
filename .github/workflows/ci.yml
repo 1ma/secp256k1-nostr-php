@@ -4,11 +4,23 @@ on: push
 
 jobs:
   run:
+    name: CI on PHP ${{ matrix.php-version }}
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: [ "7.4", "8.0", "8.1", "8.2" ]
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
+      - uses: shivammathur/setup-php@verbose
+        env:
+          debug: true
+          update: true
+        with:
+          php-version: ${{ matrix.php-version }}
+          ini-values: opcache.enable=1, opcache.enable_cli=1, opcache.protect_memory=1
       - name: Build secp256k1 and PHP extension
         run: |
           make secp256k1 ext
