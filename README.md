@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/1ma/secp256k1-nostr-php/actions/workflows/ci.yml/badge.svg)](https://github.com/1ma/secp256k1-nostr-php/actions/workflows/ci.yml)
 
-`secp256k1_nostr` is a PHP extension to validate [Nostr](https://nostr-resources.com/) events in accordance to [NIP-01](https://github.com/nostr-protocol/nips/blob/master/01.md).
+`secp256k1_nostr` is a PHP 7.4+ extension to validate [Nostr](https://nostr-resources.com/) events in accordance to [NIP-01](https://github.com/nostr-protocol/nips/blob/master/01.md).
 
 It is implemented as a thick, opinionated wrapper around Bitcoin Core's [libsecp256k1](https://github.com/bitcoin-core/secp256k1).
 
@@ -60,10 +60,11 @@ Nevertheless, only the first step might be a bit different on other Linux distri
     ```
 
 3. Build secp256k1 and the extension in one step. Then install the extension (`secp256k1_nostr.so`) in your local PHP.
-   The second command will likely require sudo privileges.
+   The 'install' command will likely require sudo privileges. Optionally, you can run the tests with `make check` before installing.
 
     ```shell
     $ make secp256k1 ext
+    $ make check
     $ sudo make install
     ```
 
@@ -86,35 +87,6 @@ See [secp256k1_nostr.stub.php](ext/secp256k1_nostr.stub.php)
 
 ## F.A.Q.
 
-### What was the motivation for developing this extension?
-
-I recently started working on a toy [Nostr relay](https://github.com/1ma/yar) written in async PHP, and a central class in that project is the "Event" domain object that verifies its own signature at construction time.
-
-As I wrote the first handful of unit tests I quickly found out that the existing PHP Schnorr libraries are very slow, therefore I built myself this native extension.
-
-It can be used in any context where Nostr events need to be validated in PHP, not just relays.
-
-### How does this extension compare to [secp256k1-php](https://github.com/Bit-Wasp/secp256k1-php)?
-
-`secp256k1-php` is a generic binding to the `libsecp256k1` library that exposes its full API function by function (also known as a "thin wrapper").
-In contrast `secp256k1_nostr` is a "thick wrapper" that is tailored for Nostr event validation, in this case `libsecp256k1` is just an implementation detail.
-
-`secp256k1_nostr` could've been written on top of `secp256k1-php` as as regular PHP library, but unfortunately the project seems abandoned.
-As I write this it hasn't seen activity on the master branch for 4 years, and the code doesn't even compile on PHP 8.0 and up.
-
-If you need a `libsecp256k1` binding that exposes all its functionality you should try to revive that project.
-
-### Are there stubs for the `secp256k1_nostr` functions?
-
-Yes. Simply use Composer to install `uma/secp256k1-nostr` as a development dependency of your project:
-
-```shell
-$ composer require --dev uma/secp256k-nostr
-```
-
-This isn't a substitute for the real installation steps outlined above.
-It will just make the [secp256k1_nostr.stub.php](ext/secp256k1_nostr.stub.php) file visible for your IDE.
-
 ### How do I generate a private key?
 
 A private key is just a random string of 32 bytes.
@@ -128,21 +100,45 @@ of working with Nostr events.
    $publicKey = secp256k1_nostr_derive_pubkey($privateKey);
    ```
 
-There is an exceedingly small possibility that the bytes are out of range
-for a valid private key, but in practice this should never happen.
+There is an exceedingly remote possibility that the bytes are out of range for a valid private key.
+In this case `secp256k1_nostr_derive_pubkey()` would throw an exception, but in practice this should never happen.
 
-### How do I run the test suite?
+### Are there stubs for the `secp256k1_nostr` functions?
+
+Yes. Simply use Composer to install `uma/secp256k1-nostr` as a development dependency of your project:
 
 ```shell
-$ make check
+$ composer require --dev uma/secp256k-nostr
 ```
+
+This isn't a substitute for the real installation steps outlined above.
+It will just make the [secp256k1_nostr.stub.php](ext/secp256k1_nostr.stub.php) file visible to your IDE.
+
+### What was the motivation for developing this extension?
+
+I recently started working on a toy [Nostr relay](https://github.com/1ma/yar) written in async PHP, and a central class in that project is the "Event" domain object that verifies its own signature at construction time.
+
+As I wrote the first handful of unit tests I quickly found out that the existing PHP Schnorr libraries are very slow, therefore I built myself this native extension.
+
+It can be used in any context where Nostr events need to be validated in PHP, not just relays.
+
+### How does this extension compare to [secp256k1-php](https://github.com/Bit-Wasp/secp256k1-php)?
+
+`secp256k1-php` is a generic binding to the `libsecp256k1` library that exposes its full API function by function (also known as a "thin wrapper").
+In contrast `secp256k1_nostr` is a "thick wrapper" that is tailored for Nostr event validation, in this case `libsecp256k1` is just an implementation detail.
+
+`secp256k1_nostr` could've been written on top of `secp256k1-php` as a regular PHP library, but unfortunately the project seems abandoned.
+As I write this it hasn't seen activity on the master branch for 4 years, and the code doesn't even compile on PHP 8.0 and up.
+
+If you need a `libsecp256k1` binding that exposes all its functionality you should try to revive that project.
 
 ### Does `secp256k1_nostr` follow [semantic versioning](https://semver.org/)?
 
 Yes, but the API may still evolve before the 1.0 release.
 
 ```
-4. Major version zero (0.y.z) is for initial development. Anything MAY change at any time.
+4. Major version zero (0.y.z) is for initial development.
+   Anything MAY change at any time.
    The public API SHOULD NOT be considered stable.
 ```
 

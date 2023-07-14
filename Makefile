@@ -22,7 +22,7 @@ secp256k1:
 	make -C secp256k1 install
 
 check:
-	make -C ext test TESTS="-q --show-diff --show-mem"
+	make -C ext test TESTS="-q --show-diff"
 
 check-valgrind:
 	make -C ext test TESTS="-q -m --show-diff --show-mem"
