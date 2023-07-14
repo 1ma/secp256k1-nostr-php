@@ -1,4 +1,4 @@
-.PHONY: ext secp256k1 check install clean
+.PHONY: ext secp256k1 check check-valgrind install clean
 
 ext:
 	cd ext && \
@@ -22,6 +22,9 @@ secp256k1:
 	make -C secp256k1 install
 
 check:
+	make -C ext test TESTS="-q --show-diff --show-mem"
+
+check-valgrind:
 	make -C ext test TESTS="-q -m --show-diff --show-mem"
 
 install:

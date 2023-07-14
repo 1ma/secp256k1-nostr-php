@@ -137,12 +137,6 @@ for a valid private key, but in practice this should never happen.
 $ make check
 ```
 
-You will need Valgrind on your system to run this command. On Ubuntu that'd be:
-
-```shell
-$ sudo apt install valgrind
-```
-
 ### Does `secp256k1_nostr` follow [semantic versioning](https://semver.org/)?
 
 Yes, but the API may still evolve before the 1.0 release.
