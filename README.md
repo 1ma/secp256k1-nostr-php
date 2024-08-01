@@ -92,8 +92,7 @@ See [secp256k1_nostr.stub.php](ext/secp256k1_nostr.stub.php)
 A private key is just a random string of 32 bytes.
 The only caveat is that it has to be hex-encoded.
 
-All functions of `secp256k1_nostr` work with hex-encoded strings to lessen the friction
-of working with Nostr events.
+All functions of `secp256k1_nostr` only accept hex-encoded strings to lessen the friction of working with Nostr events.
 
    ```php
    $privateKey = bin2hex(random_bytes(32));
@@ -101,7 +100,8 @@ of working with Nostr events.
    ```
 
 There is an exceedingly remote possibility that the bytes are out of range for a valid private key.
-In this case `secp256k1_nostr_derive_pubkey()` would throw an exception, but in practice this should never happen.
+In this case `secp256k1_nostr_derive_pubkey()` would throw an exception, but in practice this should never happen
+unless you deliberately feed the function a faulty private key such as `0000000000000000000000000000000000000000000000000000000000000000`.
 
 ### Are there stubs for the `secp256k1_nostr` functions?
 
@@ -111,8 +111,9 @@ Yes. Simply use Composer to install `uma/secp256k1-nostr` as a development depen
 $ composer require --dev uma/secp256k-nostr
 ```
 
-This isn't a substitute for the real installation steps outlined above.
-It will just make the [secp256k1_nostr.stub.php](ext/secp256k1_nostr.stub.php) file visible to your IDE.
+**NOTICE:** This isn't a substitute for the real installation steps described above.
+This will just make the [secp256k1_nostr.stub.php](ext/secp256k1_nostr.stub.php) file visible to your IDE so that it's aware of the extension functions.
+But this *does not* install the extension, which is really the `secp256k1_nostr.so` file mentioned earlier.
 
 ### What was the motivation for developing this extension?
 
