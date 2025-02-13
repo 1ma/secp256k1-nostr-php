@@ -108,7 +108,7 @@ unless you deliberately feed the function a faulty private key such as `00000000
 Yes. Simply use Composer to install `uma/secp256k1-nostr` as a development dependency of your project:
 
 ```shell
-$ composer require --dev uma/secp256k-nostr
+$ composer require --dev uma/secp256k1-nostr
 ```
 
 **NOTICE:** This isn't a substitute for the real installation steps described above.
