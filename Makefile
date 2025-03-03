@@ -1,10 +1,19 @@
-.PHONY: ext secp256k1 check check-valgrind install clean
+.PHONY: ext libsodium secp256k1 check check-valgrind install clean
 
 ext:
 	cd ext && \
 	phpize && \
 	./configure PKG_CONFIG_PATH=$(shell pwd)/build/lib/pkgconfig
 	make -C ext
+
+libsodium:
+	cd libsodium && \
+	./autogen.sh && \
+	./configure \
+		--prefix=$(shell pwd)/build \
+		--with-pic
+	make -C libsodium -j$(shell nproc)
+	make -C libsodium install
 
 secp256k1:
 	cd secp256k1 && \
@@ -32,5 +41,6 @@ install:
 
 clean:
 	make -C ext clean
+	make -C libsodium clean
 	make -C secp256k1 clean
 	rm -rf build

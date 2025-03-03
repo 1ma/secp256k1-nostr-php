@@ -22,7 +22,7 @@ jobs:
           ini-values: opcache.enable=1, opcache.enable_cli=1, opcache.protect_memory=1
       - name: Build secp256k1 and PHP extension
         run: |
-          make secp256k1 ext
+          make libsodium secp256k1 ext
       - name: Test PHP extension without Valgrind
         if: ${{ matrix.php-version == '7.4' || matrix.php-version == '8.0' }}
         run: |
