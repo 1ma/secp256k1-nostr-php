@@ -47,7 +47,7 @@ Nevertheless, only the first step might be a bit different on other Linux distri
 1. Install the required dependencies to build both the extension and secp256k1.
 
     ```shell
-    $ sudo apt install autoconf build-essential git libtool php8.1-dev pkgconf
+    $ sudo apt install autoconf build-essential git libtool php8.3-dev pkgconf
     ```
 
 2. Clone this repository and its submodules.
@@ -63,7 +63,7 @@ Nevertheless, only the first step might be a bit different on other Linux distri
    The 'install' command will likely require sudo privileges. Optionally, you can run the tests with `make check` before installing.
 
     ```shell
-    $ make secp256k1 ext
+    $ make libsodium secp256k1 ext
     $ make check
     $ sudo make install
     ```
@@ -72,12 +72,12 @@ Nevertheless, only the first step might be a bit different on other Linux distri
    separate php.ini files, so you need to edit both. Finally, test that the extension loads correctly with `php -m`. 
 
    ```shell
-   $ echo "extension=secp256k1_nostr.so" | sudo tee -a /etc/php/8.1/cli/php.ini
+   $ echo "extension=secp256k1_nostr.so" | sudo tee -a /etc/php/8.3/cli/php.ini
    $ php -m | grep nostr
    secp256k1_nostr
 
-   $ echo "extension=secp256k1_nostr.so" | sudo tee -a /etc/php/8.1/fpm/php.ini
-   $ php-fpm8.1 -m | grep nostr
+   $ echo "extension=secp256k1_nostr.so" | sudo tee -a /etc/php/8.3/fpm/php.ini
+   $ php-fpm8.3 -m | grep nostr
    secp256k1_nostr
    ```
 

@@ -2,8 +2,8 @@
 #define HEX_CONVERSIONS_H
 
 /*
-   Loosely based on sodium_bin2hex and sodium_hex2bin from
-   php-src/ext/sodium/libsodium.c, taken from PHP version 8.4.4
+   Loosely based on sodium_bin2hex() and sodium_hex2bin() from
+   php-src/ext/sodium/libsodium.c at PHP version 8.4.4
 */
 
 zend_string *php_bin2hex(const unsigned char *bin, const size_t bin_len);
