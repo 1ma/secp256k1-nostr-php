@@ -7,16 +7,16 @@ ext:
 	make -C ext
 
 libsodium:
-	cd libsodium && \
+	cd vendor/libsodium && \
 	./autogen.sh && \
 	./configure \
 		--prefix=$(shell pwd)/build \
 		--with-pic
-	make -C libsodium -j$(shell nproc)
-	make -C libsodium install
+	make -C vendor/libsodium -j$(shell nproc)
+	make -C vendor/libsodium install
 
 secp256k1:
-	cd secp256k1 && \
+	cd vendor/secp256k1 && \
 	./autogen.sh && \
 	./configure \
 		--disable-benchmark \
@@ -27,8 +27,8 @@ secp256k1:
 		--disable-tests \
 		--prefix=$(shell pwd)/build \
 		--with-pic
-	make -C secp256k1 -j$(shell nproc)
-	make -C secp256k1 install
+	make -C vendor/secp256k1 -j$(shell nproc)
+	make -C vendor/secp256k1 install
 
 check:
 	make -C ext test TESTS="-q --show-diff"
@@ -41,6 +41,6 @@ install:
 
 clean:
 	make -C ext clean
-	make -C libsodium clean
-	make -C secp256k1 clean
+	make -C vendor/libsodium clean
+	make -C vendor/secp256k1 clean
 	rm -rf build
