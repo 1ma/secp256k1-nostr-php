@@ -22,7 +22,9 @@ jobs:
           ini-values: opcache.enable=1, opcache.enable_cli=1, opcache.protect_memory=1
       - name: Build secp256k1 and PHP extension
         run: |
-          make libsodium secp256k1 ext
+          sudo apt-get update
+          sudo apt install libsodium-dev libsecp256k1-dev
+          make ext
       - name: Test PHP extension without Valgrind
         if: ${{ matrix.php-version == '7.4' || matrix.php-version == '8.0' }}
         run: |
@@ -30,6 +32,5 @@ jobs:
       - name: Test PHP extension with Valgrind
         if: ${{ matrix.php-version != '7.4' && matrix.php-version != '8.0' }}
         run: |
-          sudo apt-get update
           sudo apt-get install valgrind
           make check-valgrind

@@ -3,7 +3,7 @@
 ext:
 	cd ext && \
 	phpize && \
-	./configure PKG_CONFIG_PATH=$(shell pwd)/build/lib/pkgconfig
+	./configure
 	make -C ext
 
 libsodium:
