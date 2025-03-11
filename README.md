@@ -41,30 +41,38 @@ bool(false)
 
 ## Installation (Linux)
 
-These instructions are tailored for Ubuntu 22.04 LTS.
+These instructions are tailored for Ubuntu 24.04 LTS.
 Nevertheless, only the first step might be a bit different on other Linux distributions that don't use the APT package manager.
 
 1. Install the required dependencies to build both the extension and secp256k1.
 
     ```shell
-    $ sudo apt install autoconf build-essential git libtool php8.3-dev pkgconf
+    $ sudo apt install autoconf build-essential git libsecp256k1-dev libsodium-dev libtool php8.3-dev pkgconf
     ```
 
-2. Clone this repository and its submodules.
+2. Clone this repository:
 
     ```shell
     $ git clone https://github.com/1ma/secp256k1-nostr-php
     $ cd secp256k1-nostr-php
-    $ git submodule init
-    $ git submodule update
     ```
 
-3. Build secp256k1 and the extension in one step. Then install the extension (`secp256k1_nostr.so`) in your local PHP.
+3. Build the extension (`secp256k1_nostr.so`), then install it into your local PHP runtime.
    The 'install' command will likely require sudo privileges. Optionally, you can run the tests with `make check` before installing.
 
     ```shell
-    $ make libsodium secp256k1 ext
+    $ make ext
     $ make check
+    $ sudo make install
+    ```
+
+   If your Linux distro doesn't have packages (or the minimum required version) for libsodium or libsecp256k1 you can build these
+   dependencies in-tree. For that you'll need to clone the submodules of the repository and run `make ext-with-deps` instead of `make ext`:
+
+    ```shell
+    $ git submodule init
+    $ git submodule update
+    $ make ext-with-deps
     $ sudo make install
     ```
 

@@ -6,6 +6,12 @@ ext:
 	./configure
 	make -C ext
 
+ext-with-deps: libsodium secp256k1
+	cd ext && \
+	phpize && \
+	./configure PKG_CONFIG_PATH=$(shell pwd)/build/lib/pkgconfig
+	make -C ext
+
 libsodium:
 	cd vendor/libsodium && \
 	./autogen.sh && \
