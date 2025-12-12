@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 
 on:
   push:
@@ -6,44 +6,15 @@ on:
 
 jobs:
   build:
-    name: CI on PHP ${{ matrix.php-version }}
+    name: PHP ${{ matrix.php-version }} (${{ matrix.dependency-type }} deps)
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         php-version: [ "7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5" ]
+        dependency-type: [ "system", "vendored" ]
     steps:
-      - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
-        env:
-          coverage: none
-          debug: true
-        with:
-          php-version: ${{ matrix.php-version }}
-          ini-values: opcache.enable=1, opcache.enable_cli=1, opcache.protect_memory=1
-      - name: Build secp256k1_nostr
-        run: |
-          sudo apt-get update
-          sudo apt install libsodium-dev libsecp256k1-dev
-          make ext
-      - name: Test PHP extension without Valgrind
-        if: ${{ matrix.php-version == '7.4' || matrix.php-version == '8.0' }}
-        run: |
-          make check
-      - name: Test PHP extension with Valgrind
-        if: ${{ matrix.php-version != '7.4' && matrix.php-version != '8.0' }}
-        run: |
-          sudo apt-get install valgrind
-          make check-valgrind
-  build-vendored:
-    name: CI on PHP ${{ matrix.php-version }}, vendored dependencies
-    runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version: [ "7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5" ]
-    steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
       - uses: shivammathur/setup-php@v2
@@ -53,7 +24,13 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           ini-values: opcache.enable=1, opcache.enable_cli=1, opcache.protect_memory=1
-      - name: Build libsodium, secp256k1 and secp256k1_nostr
+      - name: Build secp256k1_nostr with system packages
+        if: ${{ matrix.dependency-type == 'system' }}
+        run: |
+          sudo apt install libsodium-dev libsecp256k1-dev
+          make ext
+      - name: Build secp256k1_nostr with vendored dependencies
+        if: ${{ matrix.dependency-type == 'vendored' }}
         run: |
           make ext-with-deps
       - name: Test PHP extension without Valgrind
@@ -63,6 +40,5 @@ jobs:
       - name: Test PHP extension with Valgrind
         if: ${{ matrix.php-version != '7.4' && matrix.php-version != '8.0' }}
         run: |
-          sudo apt-get update
           sudo apt-get install valgrind
           make check-valgrind
