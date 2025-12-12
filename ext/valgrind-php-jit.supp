@@ -1,0 +1,147 @@
+# This is a Valgrind suppression file to suppress false positives.
+# Run Valgrind with --gen-suppressions=all to print a suppression after each warning,
+# and if it is a false positive append it to this file.
+
+{
+   supp-0001
+   Memcheck:Cond
+   fun:ir_sparse_set_in
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_setup_stubs
+   fun:zend_jit_setup
+   fun:zend_jit_startup
+   fun:accel_post_startup
+   fun:zend_post_startup
+   fun:php_module_startup
+   fun:main
+}
+
+{
+   supp-0002
+   Memcheck:Value8
+   fun:ir_sparse_set_in
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_setup_stubs
+   fun:zend_jit_setup
+   fun:zend_jit_startup
+   fun:accel_post_startup
+   fun:zend_post_startup
+   fun:php_module_startup
+   fun:main
+}
+
+{
+   supp-0003
+   Memcheck:Cond
+   fun:ir_sparse_set_in
+   fun:_push_predecessors.isra.0
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_setup_stubs
+   fun:zend_jit_setup
+   fun:zend_jit_startup
+   fun:accel_post_startup
+   fun:zend_post_startup
+   fun:php_module_startup
+   fun:main
+}
+
+{
+   supp-0004
+   Memcheck:Value8
+   fun:ir_sparse_set_in
+   fun:_push_predecessors.isra.0
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_setup_stubs
+   fun:zend_jit_setup
+   fun:zend_jit_startup
+   fun:accel_post_startup
+   fun:zend_post_startup
+   fun:php_module_startup
+   fun:main
+}
+
+{
+   supp-0005
+   Memcheck:Cond
+   fun:ir_sparse_set_in
+   fun:_check_successors
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_setup_stubs
+   fun:zend_jit_setup
+   fun:zend_jit_startup
+   fun:accel_post_startup
+   fun:zend_post_startup
+   fun:php_module_startup
+   fun:main
+}
+
+{
+   supp-0006
+   Memcheck:Value8
+   fun:ir_sparse_set_in
+   fun:_check_successors
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_setup_stubs
+   fun:zend_jit_setup
+   fun:zend_jit_startup
+   fun:accel_post_startup
+   fun:zend_post_startup
+   fun:php_module_startup
+   fun:main
+}
+
+{
+   supp-0007
+   Memcheck:Cond
+   fun:ir_sparse_set_in
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_finish
+   fun:zend_jit
+   fun:zend_real_jit_func
+   fun:zend_jit_hot_func
+   obj:*
+   fun:zend_execute
+   fun:zend_execute_script
+   fun:php_execute_script_ex
+   fun:do_cli
+}
+
+{
+   supp-0008
+   Memcheck:Value8
+   fun:ir_sparse_set_in
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_finish
+   fun:zend_jit
+   fun:zend_real_jit_func
+   fun:zend_jit_hot_func
+   obj:*
+   fun:zend_execute
+   fun:zend_execute_script
+   fun:php_execute_script_ex
+   fun:do_cli
+}
