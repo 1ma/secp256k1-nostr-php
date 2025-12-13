@@ -41,3 +41,23 @@ jobs:
         run: |
           sudo apt-get install valgrind
           make check
+  test-install:
+    name: PIE install (PHP ${{ matrix.php-version }})
+    runs-on: ubuntu-24.04
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: [ "8.1", "8.2", "8.3", "8.4", "8.5" ]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: pie
+      - run: |
+          sudo apt install libsodium-dev libsecp256k1-dev
+          pie repository:add path .
+          sudo pie install uma/secp256k1-nostr:*@dev
+          php -m | grep secp256k1_nostr
