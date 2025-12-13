@@ -1,6 +1,14 @@
 {
     "name": "uma/secp256k1-nostr",
     "description": "secp256k1_nostr extension for PHP",
-    "type": "extension",
-    "license": "MIT"
+    "type": "php-ext",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4"
+    },
+    "php-ext": {
+        "build-path": "ext",
+        "extension-name": "secp256k1_nostr",
+        "priority": 20
+    }
 }
