@@ -37,9 +37,6 @@ secp256k1:
 	$(MAKE) -C vendor/secp256k1 install
 
 check:
-	$(MAKE) -C ext test TESTS="-q --show-diff"
-
-check-valgrind:
 	$(MAKE) -C ext test TESTS="-q -m --show-diff --show-mem" \
 		VALGRIND_OPTS="--gen-suppressions=all --suppressions=$(CURDIR)/ext/valgrind-php-jit.supp"
 

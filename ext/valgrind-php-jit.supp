@@ -3,7 +3,544 @@
 # and if it is a false positive append it to this file.
 
 {
-   supp-0001
+   php80-000
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_hash_find_ptr
+   fun:zend_get_constant_impl
+   fun:zend_get_constant
+   fun:zend_ini_get_constant
+   fun:ini_parse
+   fun:zend_parse_ini_file
+   fun:php_init_config
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-001
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:_zend_hash_add_or_update_i
+   fun:zend_hash_update
+   fun:php_ini_parser_cb
+   fun:ini_parse
+   fun:zend_parse_ini_file
+   fun:php_init_config
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-002
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_register_ini_entries
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-003
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_permanent.part.0
+   fun:zend_register_ini_entries
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-004
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_permanent.part.0
+   fun:zend_register_functions
+   fun:do_register_internal_class
+   fun:zend_register_internal_class_ex
+   fun:zend_register_default_exception
+   fun:zend_register_default_classes
+   fun:zm_startup_core
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+}
+
+{
+   php80-005
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_permanent.part.0
+   fun:zval_make_interned_string
+   fun:zend_declare_typed_property
+   fun:zend_declare_property_ex
+   fun:zend_declare_property
+   fun:zend_declare_property_string
+   fun:declare_exception_properties
+   fun:zend_register_default_exception
+   fun:zend_register_default_classes
+   fun:zm_startup_core
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+}
+
+{
+   php80-006
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_permanent.part.0
+   fun:zend_declare_typed_property
+   fun:zend_declare_property_ex
+   fun:zend_declare_property
+   fun:zend_declare_property_string
+   fun:declare_exception_properties
+   fun:zend_register_default_exception
+   fun:zend_register_default_classes
+   fun:zm_startup_core
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+}
+
+{
+   php80-007
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_register_ini_entries
+   fun:zm_startup_date
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-008
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_permanent.part.0
+   fun:zval_make_interned_string
+   fun:zend_declare_class_constant_ex
+   fun:zend_declare_class_constant
+   fun:zend_declare_class_constant_stringl
+   fun:date_register_classes
+   fun:zm_startup_date
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+}
+
+{
+   php80-009
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_permanent.part.0
+   fun:zend_register_ini_entries
+   fun:zm_startup_zlib
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-010
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_permanent.part.0
+   fun:do_register_internal_class
+   fun:zm_startup_reflection
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-011
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_hash_find_ptr
+   fun:zend_declare_typed_property
+   fun:zend_declare_property_ex
+   fun:zend_declare_property
+   fun:zend_declare_property_string
+   fun:zm_startup_reflection
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+}
+
+{
+   php80-012
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_del
+   fun:zend_declare_typed_property
+   fun:zend_declare_property_ex
+   fun:zend_declare_property
+   fun:zend_declare_property_string
+   fun:zm_startup_reflection
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+}
+
+{
+   php80-013
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_hash_find_ptr
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-014
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_register_ini_entries
+   fun:zm_startup_session
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-015
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_permanent.part.0
+   fun:zend_register_ini_entries
+   fun:zm_startup_session
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-016
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_register_ini_entries
+   fun:zm_startup_file
+   fun:zm_startup_basic
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-017
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_register_ini_entries
+   fun:zm_startup_url_scanner_ex
+   fun:zm_startup_basic
+   fun:zend_startup_module_ex
+   fun:zend_startup_module_zval
+   fun:zend_hash_apply
+   fun:php_module_startup
+   fun:php_cli_startup
+   fun:main
+}
+
+{
+   php80-018
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_hash_find_ptr
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+}
+
+{
+   php80-019
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_insert_literal
+   fun:zend_add_literal
+   fun:zend_emit_op
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+}
+
+{
+   php80-020
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_hash_find_ptr
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_stmt_list
+   fun:zend_compile_stmt
+   fun:zend_compile_try
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+   fun:compile_file
+}
+
+{
+   php80-021
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_insert_literal
+   fun:zend_add_literal
+   fun:zend_emit_op
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_stmt_list
+   fun:zend_compile_stmt
+   fun:zend_compile_try
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+}
+
+{
+   php80-022
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_insert_literal
+   fun:zend_add_literal
+   fun:zend_add_literal_string
+   fun:zend_add_func_name_literal
+   fun:zend_compile_method_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_stmt_list
+   fun:zend_compile_stmt
+}
+
+{
+   php80-023
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_hash_find_ptr
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_assign
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+   fun:compile_file
+   fun:zend_execute_scripts
+   fun:php_execute_script
+}
+
+{
+   php80-024
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_insert_literal
+   fun:zend_add_literal
+   fun:zend_emit_op
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_assign
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+   fun:compile_file
+   fun:zend_execute_scripts
+}
+
+{
+   php80-025
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_try_compile_cv.isra.0
+   fun:zend_compile_simple_var
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_assign
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+}
+
+{
+   php80-026
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_try_compile_cv.isra.0
+   fun:zend_compile_simple_var
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+}
+
+{
+   php85-000
    Memcheck:Cond
    fun:ir_sparse_set_in
    fun:ir_split_partially_dead_node
@@ -20,7 +557,7 @@
 }
 
 {
-   supp-0002
+   php85-001
    Memcheck:Value8
    fun:ir_sparse_set_in
    fun:ir_split_partially_dead_node
@@ -37,7 +574,7 @@
 }
 
 {
-   supp-0003
+   php85-002
    Memcheck:Cond
    fun:ir_sparse_set_in
    fun:_push_predecessors.isra.0
@@ -55,7 +592,7 @@
 }
 
 {
-   supp-0004
+   php85-003
    Memcheck:Value8
    fun:ir_sparse_set_in
    fun:_push_predecessors.isra.0
@@ -73,7 +610,7 @@
 }
 
 {
-   supp-0005
+   php85-004
    Memcheck:Cond
    fun:ir_sparse_set_in
    fun:_check_successors
@@ -91,7 +628,7 @@
 }
 
 {
-   supp-0006
+   php85-005
    Memcheck:Value8
    fun:ir_sparse_set_in
    fun:_check_successors
@@ -109,7 +646,7 @@
 }
 
 {
-   supp-0007
+   php85-006
    Memcheck:Cond
    fun:ir_sparse_set_in
    fun:ir_split_partially_dead_node
@@ -128,7 +665,7 @@
 }
 
 {
-   supp-0008
+   php85-007
    Memcheck:Value8
    fun:ir_sparse_set_in
    fun:ir_split_partially_dead_node

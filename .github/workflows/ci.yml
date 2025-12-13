@@ -33,8 +33,7 @@ jobs:
         if: ${{ matrix.dependency-type == 'vendored' }}
         run: |
           make ext-with-deps
-      - name: Test PHP extension with Valgrind
+      - name: Test PHP extension
         run: |
-          php -v
           sudo apt-get install valgrind
-          make check-valgrind
+          make check
