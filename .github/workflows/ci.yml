@@ -19,11 +19,11 @@ jobs:
           submodules: recursive
       - uses: shivammathur/setup-php@v2
         env:
-          coverage: none
           debug: true
         with:
           php-version: ${{ matrix.php-version }}
           ini-values: opcache.enable=1, opcache.enable_cli=1, opcache.protect_memory=1
+          coverage: none
       - name: Build secp256k1_nostr with system packages
         if: ${{ matrix.dependency-type == 'system' }}
         run: |
@@ -33,12 +33,8 @@ jobs:
         if: ${{ matrix.dependency-type == 'vendored' }}
         run: |
           make ext-with-deps
-      - name: Test PHP extension without Valgrind
-        if: ${{ matrix.php-version == '7.4' || matrix.php-version == '8.0' }}
-        run: |
-          make check
       - name: Test PHP extension with Valgrind
-        if: ${{ matrix.php-version != '7.4' && matrix.php-version != '8.0' }}
         run: |
+          php -v
           sudo apt-get install valgrind
           make check-valgrind
