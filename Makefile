@@ -1,43 +1,37 @@
-.PHONY: ext libsodium secp256k1 check check-valgrind install clean
+.PHONY: ext ext-with-deps libsodium secp256k1 check install clean
 
 ext:
-	cd ext && \
-	phpize && \
-	./configure
+	cd ext && phpize && ./configure
 	$(MAKE) -C ext
 
 ext-with-deps: libsodium secp256k1
-	cd ext && \
-	phpize && \
-	./configure PKG_CONFIG_PATH=$(shell pwd)/build/lib/pkgconfig
+	cd ext && phpize && ./configure \
+		PKG_CONFIG_PATH=$(CURDIR)/vendor/build/lib/pkgconfig
 	$(MAKE) -C ext
 
 libsodium:
-	cd vendor/libsodium && \
-	./autogen.sh && \
-	./configure \
-		--prefix=$(shell pwd)/build \
+	cd vendor/libsodium && ./autogen.sh && ./configure \
+		--prefix=$(CURDIR)/vendor/build \
 		--with-pic
 	$(MAKE) -C vendor/libsodium -j$(shell nproc)
 	$(MAKE) -C vendor/libsodium install
 
 secp256k1:
-	cd vendor/secp256k1 && \
-	./autogen.sh && \
-	./configure \
+	cd vendor/secp256k1 && ./autogen.sh && ./configure \
 		--disable-benchmark \
 		--disable-ctime-tests \
 		--disable-examples \
 		--disable-exhaustive-tests \
 		--disable-shared \
 		--disable-tests \
-		--prefix=$(shell pwd)/build \
+		--prefix=$(CURDIR)/vendor/build \
 		--with-pic
 	$(MAKE) -C vendor/secp256k1 -j$(shell nproc)
 	$(MAKE) -C vendor/secp256k1 install
 
 check:
-	$(MAKE) -C ext test TESTS="-q -m --show-diff --show-mem" \
+	$(MAKE) -C ext test \
+		TESTS="-q -m --show-diff --show-mem" \
 		VALGRIND_OPTS="--gen-suppressions=all --suppressions=$(CURDIR)/ext/valgrind-php-jit.supp"
 
 install:
