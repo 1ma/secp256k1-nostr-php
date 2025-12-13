@@ -5,12 +5,12 @@ ext:
 	$(MAKE) -C ext
 
 ext-with-deps: libsodium secp256k1
-	cd ext && phpize && ./configure \
-		PKG_CONFIG_PATH=$(CURDIR)/vendor/build/lib/pkgconfig
+	cd ext && phpize && PKG_CONFIG_PATH=$(CURDIR)/vendor/build/lib/pkgconfig ./configure
 	$(MAKE) -C ext
 
 libsodium:
 	cd vendor/libsodium && ./autogen.sh && ./configure \
+		--disable-shared \
 		--prefix=$(CURDIR)/vendor/build \
 		--with-pic
 	$(MAKE) -C vendor/libsodium -j$(shell nproc)
@@ -32,7 +32,7 @@ secp256k1:
 check:
 	$(MAKE) -C ext test \
 		TESTS="-q -m --show-diff --show-mem" \
-		VALGRIND_OPTS="--gen-suppressions=all --suppressions=$(CURDIR)/ext/valgrind-php-jit.supp"
+		VALGRIND_OPTS="--gen-suppressions=all --suppressions=$(CURDIR)/ext/valgrind-php.supp"
 
 install:
 	$(MAKE) -C ext install

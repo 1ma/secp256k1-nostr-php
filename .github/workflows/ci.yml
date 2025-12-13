@@ -31,10 +31,12 @@ jobs:
         run: |
           sudo apt install libsodium-dev libsecp256k1-dev
           make ext
+          ldd ext/modules/secp256k1_nostr.so
       - name: Build secp256k1_nostr with vendored dependencies
         if: ${{ matrix.dependency-type == 'vendored' }}
         run: |
           make ext-with-deps
+          ldd ext/modules/secp256k1_nostr.so
       - name: Test PHP extension
         run: |
           sudo apt-get install valgrind
