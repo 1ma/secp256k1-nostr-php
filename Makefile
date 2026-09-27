@@ -49,4 +49,4 @@ clean:
 	$(MAKE) -C ext clean
 	$(MAKE) -C vendor/libsodium clean
 	$(MAKE) -C vendor/secp256k1 clean
-	rm -rf build
+	rm -rf build ext/coverage-html ext/coverage.info

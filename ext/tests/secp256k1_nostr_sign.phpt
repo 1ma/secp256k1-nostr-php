@@ -19,10 +19,20 @@ var_dump(secp256k1_nostr_verify($publicKey, $message, $signature2));
 
 // Signatures are not deterministic
 var_dump($signature !== $signature2);
+
+// Second keypair
+$privateKey2 = '0000000000000000000000000000000000000000000000000000000000000003';
+$publicKey2 = 'f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9';
+
+$signature3 = secp256k1_nostr_sign($privateKey2, $message);
+var_dump(strlen(hex2bin($signature3)));
+var_dump(secp256k1_nostr_verify($publicKey2, $message, $signature3));
 ?>
 --EXPECT--
 int(64)
 bool(true)
 int(64)
 bool(true)
+bool(true)
+int(64)
 bool(true)

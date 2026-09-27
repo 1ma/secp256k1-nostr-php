@@ -82,8 +82,7 @@ PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
 
 	zend_string_efree(binary_seckey);
 
-	// secp256k1_keypair_xonly_pub() always returns 1. The variable only exists to please GCC 11.3
-	int one = secp256k1_keypair_xonly_pub(ctx, &xonly_pubkey, NULL, &keypair);
+	(void)secp256k1_keypair_xonly_pub(ctx, &xonly_pubkey, NULL, &keypair);
 	secp256k1_xonly_pubkey_serialize(ctx, tmp, &xonly_pubkey);
 	secp256k1_context_destroy(ctx);
 

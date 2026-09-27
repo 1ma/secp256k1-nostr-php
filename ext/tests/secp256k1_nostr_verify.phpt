@@ -12,7 +12,12 @@ $sig_bad = 'abfec4d5f7c7a1a3d91d69e5020b71fcf7ca427cf7060efac84fbb2c38f10242c6af
 
 var_dump(secp256k1_nostr_verify($publicKey, $message, $sig_ok));
 var_dump(secp256k1_nostr_verify($publicKey, $message, $sig_bad));
+
+// Cross-verify: valid signature from keypair 1 must fail against keypair 2's pubkey
+$publicKey2 = 'f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9';
+var_dump(secp256k1_nostr_verify($publicKey2, $message, $sig_ok));
 ?>
 --EXPECT--
 bool(true)
+bool(false)
 bool(false)
