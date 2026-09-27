@@ -1,2 +1,6 @@
+*.gcno
+*.gcov
+*.info
 composer.lock
+coverage-html/
 vendor/

@@ -1,4 +1,4 @@
-.PHONY: ext ext-with-deps libsodium secp256k1 check install clean
+.PHONY: ext ext-with-deps libsodium secp256k1 check coverage install clean
 
 ext:
 	cd ext && phpize && ./configure
@@ -33,6 +33,14 @@ check:
 	$(MAKE) -C ext test \
 		TESTS="-q -m --show-diff --show-mem" \
 		VALGRIND_OPTS="--gen-suppressions=all --suppressions=$(CURDIR)/ext/valgrind-php.supp"
+
+coverage: libsodium secp256k1
+	cd ext && phpize && CFLAGS="--coverage -O0 -g" LDFLAGS="--coverage" PKG_CONFIG_PATH=$(CURDIR)/vendor/build/lib/pkgconfig ./configure
+	$(MAKE) -C ext
+	$(MAKE) -C ext test TESTS="-q --show-diff"
+	lcov --capture --directory ext/.libs --output-file ext/coverage.info --include '$(CURDIR)/ext/*'
+	genhtml ext/coverage.info --output-directory ext/coverage-html
+	@echo "Coverage report: ext/coverage-html/index.html"
 
 install:
 	$(MAKE) -C ext install
