@@ -39,7 +39,25 @@ bool(true)
 bool(false)
 ```
 
-## Installation (Linux)
+## Installation
+
+The easiest way to install the extension is with [PIE](https://github.com/php/pie/):
+
+```shell
+$ pie check-build-tools
+$ sudo apt install libsecp256k1-dev libsodium-dev
+$ sudo pie install uma/secp256k1-nostr
+```
+
+This should take care of building and enabling the extension in PHP on your behalf.
+Verify with the `-m` flag:
+
+```shell
+$ php -m | grep nostr
+secp256k1_nostr
+```
+
+## Manual Build
 
 These instructions are tailored for Ubuntu 24.04 LTS.
 Nevertheless, only the first step might be a bit different on other Linux distributions that don't use the APT package manager.
@@ -153,8 +171,8 @@ Yes, but the API may still evolve before the 1.0 release.
 
 ### Is Windows supported?
 
-No, and I don't intend to work on this. But a PR would be welcome.
+No, sorry Ballmer.
 
-### Is `secp256k1_nostr` available on [PECL](https://pecl.php.net/)?
+### Can `secp256k1_nostr` be installed with [PECL](https://pecl.php.net/)?
 
-No :')
+No, PECL is deprecated and no effort will be made to add this extension there.
