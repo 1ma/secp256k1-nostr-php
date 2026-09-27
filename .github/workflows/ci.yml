@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: PHP ${{ matrix.php-version }} (${{ matrix.dependency-type }} deps)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
       matrix:
@@ -43,7 +43,7 @@ jobs:
           make check
   test-install:
     name: PIE install (PHP ${{ matrix.php-version }})
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs:
       - build
     strategy:
