@@ -439,6 +439,91 @@
 }
 
 {
+   php74-022
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_hash_find_ptr
+   fun:zend_try_ct_eval_const
+   fun:zend_compile_const
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+}
+
+{
+   php74-023
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_insert_literal
+   fun:zend_add_literal
+   fun:zend_emit_op
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var
+   fun:zend_compile_stmt
+}
+
+{
+   php74-024
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_try_compile_cv.isra.0
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var
+   fun:zend_compile_stmt
+}
+
+{
+   php74-025
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_try_compile_cv.isra.0
+   fun:zend_compile_simple_var
+   fun:zend_compile_assign
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+   fun:compile_file
+   fun:zend_execute_scripts
+   fun:php_execute_script
+}
+
+{
    php80-000
    Memcheck:Cond
    fun:zend_string_equal_val
@@ -976,6 +1061,77 @@
 }
 
 {
+   php80-027
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_hash_find_bucket
+   fun:zend_hash_find
+   fun:zend_hash_find_ptr
+   fun:zend_try_ct_eval_const
+   fun:zend_compile_const
+   fun:zend_compile_expr
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+}
+
+{
+   php80-028
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_insert_literal
+   fun:zend_add_literal
+   fun:zend_emit_op
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_args
+   fun:zend_compile_call_common
+   fun:zend_compile_call
+   fun:zend_compile_var_inner
+   fun:zend_compile_var
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+}
+
+{
+   php80-029
+   Memcheck:Cond
+   fun:zend_string_equal_val
+   fun:zend_string_equal_content
+   fun:zend_interned_string_ht_lookup
+   fun:zend_new_interned_string_request
+   fun:zend_new_interned_string_request
+   fun:zval_make_interned_string
+   fun:zend_try_compile_cv.isra.0
+   fun:zend_compile_simple_var
+   fun:zend_compile_assign
+   fun:zend_compile_expr
+   fun:zend_compile_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile_top_stmt
+   fun:zend_compile
+   fun:compile_file
+   fun:zend_execute_scripts
+   fun:php_execute_script
+}
+
+{
    php85-000
    Memcheck:Cond
    fun:ir_sparse_set_in
@@ -1117,4 +1273,40 @@
    fun:zend_execute_script
    fun:php_execute_script_ex
    fun:do_cli
+}
+
+{
+   php86-000
+   Memcheck:Cond
+   fun:ir_sparse_set_in
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_setup_stubs
+   fun:zend_jit_setup
+   fun:zend_jit_startup
+   fun:accel_post_startup
+   fun:zend_post_startup
+   fun:php_module_startup
+   fun:do_php_cli
+   fun:(below main)
+}
+
+{
+   php86-001
+   Memcheck:Value8
+   fun:ir_sparse_set_in
+   fun:ir_split_partially_dead_node
+   fun:ir_gcm_schedule_late
+   fun:ir_gcm
+   fun:zend_jit_ir_compile
+   fun:zend_jit_setup_stubs
+   fun:zend_jit_setup
+   fun:zend_jit_startup
+   fun:accel_post_startup
+   fun:zend_post_startup
+   fun:php_module_startup
+   fun:do_php_cli
+   fun:(below main)
 }

@@ -8,7 +8,7 @@ ob_start();
 phpinfo(INFO_MODULES);
 $info = ob_get_clean();
 
-var_dump(str_contains($info, 'secp256k1_nostr support'));
+var_dump(strpos($info, 'secp256k1_nostr support') !== false);
 ?>
 --EXPECT--
 bool(true)
