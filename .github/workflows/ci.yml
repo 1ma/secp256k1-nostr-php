@@ -44,6 +44,25 @@ jobs:
           php -v
           sudo apt-get install valgrind
           make check
+  coverage:
+    name: Generate coverage report and badge
+    runs-on: ubuntu-26.04
+    needs:
+      - build
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: recursive
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
+        with:
+          php-version: "8.5"
+      - run: |
+          sudo apt install lcov
+          make coverage
+      - uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
+        with:
+          file: ext/coverage.info
+          format: lcov
   test-install:
     name: PIE install (PHP ${{ matrix.php-version }} ${{ matrix.thread-safety }})
     runs-on: ubuntu-26.04
