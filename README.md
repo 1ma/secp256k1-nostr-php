@@ -1,6 +1,7 @@
 # secp256k1_nostr extension for PHP
 
 [![CI](https://github.com/1ma/secp256k1-nostr-php/actions/workflows/ci.yml/badge.svg)](https://github.com/1ma/secp256k1-nostr-php/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/1ma/secp256k1-nostr-php/badge.svg?branch=master)](https://coveralls.io/github/1ma/secp256k1-nostr-php?branch=master)
 
 `secp256k1_nostr` is a PHP 7.4+ extension to validate [Nostr](https://nostr-resources.com/) events in accordance to [NIP-01](https://github.com/nostr-protocol/nips/blob/master/01.md).
 
