@@ -161,13 +161,7 @@ If you need a `libsecp256k1` binding that exposes all its functionality you shou
 
 ### Does `secp256k1_nostr` follow [semantic versioning](https://semver.org/)?
 
-Yes, but the API may still evolve before the 1.0 release.
-
-```
-4. Major version zero (0.y.z) is for initial development.
-   Anything MAY change at any time.
-   The public API SHOULD NOT be considered stable.
-```
+Yes.
 
 ### Is Windows supported?
 
