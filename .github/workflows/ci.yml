@@ -8,13 +8,14 @@ on:
 
 jobs:
   build:
-    name: PHP ${{ matrix.php-version }} (${{ matrix.dependency-type }} deps)
+    name: PHP ${{ matrix.php-version }} ${{ matrix.thread-safety }} (${{ matrix.dependency-type }} deps)
     runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
       matrix:
         php-version: [ "7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5", "8.6" ]
         dependency-type: [ "system", "vendored" ]
+        thread-safety: [ "nts", "zts" ]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -22,6 +23,7 @@ jobs:
       - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
         env:
           debug: true
+          phpts: ${{ matrix.thread-safety }}
         with:
           php-version: ${{ matrix.php-version }}
           ini-values: opcache.enable=1, opcache.enable_cli=1, opcache.protect_memory=1
@@ -39,10 +41,11 @@ jobs:
           ldd ext/modules/secp256k1_nostr.so
       - name: Test PHP extension
         run: |
+          php -v
           sudo apt-get install valgrind
           make check
   test-install:
-    name: PIE install (PHP ${{ matrix.php-version }})
+    name: PIE install (PHP ${{ matrix.php-version }} ${{ matrix.thread-safety }})
     runs-on: ubuntu-26.04
     needs:
       - build
@@ -50,13 +53,17 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [ "8.1", "8.2", "8.3", "8.4", "8.5", "8.6" ]
+        thread-safety: [ "nts", "zts" ]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
+        env:
+          phpts: ${{ matrix.thread-safety }}
         with:
           php-version: ${{ matrix.php-version }}
           tools: pie
       - run: |
+          php -v
           sudo apt install libsodium-dev libsecp256k1-dev
           pie repository:add path .
           sudo pie install uma/secp256k1-nostr:*@dev
