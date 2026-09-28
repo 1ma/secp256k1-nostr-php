@@ -35,7 +35,7 @@
 
 PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
 {
-	zend_string* in_seckey;
+	zend_string* in_seckey = NULL;
 	zend_string* binary_seckey = NULL;
 	secp256k1_context* ctx = NULL;
 	secp256k1_keypair keypair;
@@ -84,8 +84,8 @@ release:
 
 PHP_FUNCTION(secp256k1_nostr_sign)
 {
-	zend_string* in_seckey;
-	zend_string* in_hash;
+	zend_string* in_seckey = NULL;
+	zend_string* in_hash = NULL;
 	zend_string* binary_seckey = NULL;
 	zend_string* binary_hash = NULL;
 	secp256k1_context* ctx = NULL;
@@ -156,9 +156,9 @@ release:
 
 PHP_FUNCTION(secp256k1_nostr_verify)
 {
-	zend_string* in_pubkey;
-	zend_string* in_hash;
-	zend_string* in_signature;
+	zend_string* in_pubkey = NULL;
+	zend_string* in_hash = NULL;
+	zend_string* in_signature = NULL;
 	zend_string* binary_pubkey = NULL;
 	zend_string* binary_hash = NULL;
 	zend_string* binary_signature = NULL;
@@ -216,7 +216,6 @@ release:
 	if (binary_signature) zend_string_efree(binary_signature);
 }
 
-/* {{{ PHP_MINIT_FUNCTION */
 PHP_MINIT_FUNCTION(secp256k1_nostr)
 {
 #if defined(ZTS) && defined(COMPILE_DL_SECP256K1_NOSTR)
@@ -231,31 +230,27 @@ PHP_MINIT_FUNCTION(secp256k1_nostr)
 
 	return SUCCESS;
 }
-/* }}} */
 
-/* {{{ PHP_MINFO_FUNCTION */
 PHP_MINFO_FUNCTION(secp256k1_nostr)
 {
 	php_info_print_table_start();
-	php_info_print_table_header(2, "secp256k1_nostr support", "enabled");
+	php_info_print_table_row(2, "secp256k1_nostr support", "enabled");
+	php_info_print_table_row(2, "secp256k1_nostr version", PHP_SECP256K1_NOSTR_VERSION);
 	php_info_print_table_end();
 }
-/* }}} */
 
-/* {{{ secp256k1_nostr_module_entry */
 zend_module_entry secp256k1_nostr_module_entry = {
 	STANDARD_MODULE_HEADER,
-	"secp256k1_nostr",					/* Extension name */
+	"secp256k1_nostr",				/* Extension name */
 	ext_functions,					/* zend_function_entry */
-	PHP_MINIT(secp256k1_nostr),			/* PHP_MINIT - Module initialization */
+	PHP_MINIT(secp256k1_nostr),		/* PHP_MINIT - Module initialization */
 	NULL,							/* PHP_MSHUTDOWN - Module shutdown */
-	NULL,			/* PHP_RINIT - Request initialization */
+	NULL,							/* PHP_RINIT - Request initialization */
 	NULL,							/* PHP_RSHUTDOWN - Request shutdown */
-	PHP_MINFO(secp256k1_nostr),			/* PHP_MINFO - Module info */
-	PHP_SECP256K1_NOSTR_VERSION,		/* Version */
+	PHP_MINFO(secp256k1_nostr),		/* PHP_MINFO - Module info */
+	PHP_SECP256K1_NOSTR_VERSION,	/* Version */
 	STANDARD_MODULE_PROPERTIES
 };
-/* }}} */
 
 #ifdef COMPILE_DL_SECP256K1_NOSTR
 # ifdef ZTS

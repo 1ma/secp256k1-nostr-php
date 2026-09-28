@@ -18,7 +18,6 @@
 
 #include "sodium.h"
 
-/* {{{ php_bin2hex */
 zend_string *php_bin2hex(const unsigned char *bin, const size_t bin_len)
 {
 	zend_string *hex;
@@ -32,9 +31,7 @@ zend_string *php_bin2hex(const unsigned char *bin, const size_t bin_len)
 
 	return hex;
 }
-/* }}} */
 
-/* {{{ php_hex2bin */
 zend_string *php_hex2bin(const unsigned char *hex, const size_t hex_len)
 {
 	zend_string *bin;
@@ -52,4 +49,3 @@ zend_string *php_hex2bin(const unsigned char *hex, const size_t hex_len)
 
 	return bin;
 }
-/* }}} */
