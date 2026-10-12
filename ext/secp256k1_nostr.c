@@ -20,18 +20,11 @@
 
 #include "hex_conversions.h"
 
-#include "sodium.h"
+#include <sodium.h>
 
-#include "secp256k1.h"
-#include "secp256k1_extrakeys.h"
-#include "secp256k1_schnorrsig.h"
-
-/* For compatibility with older PHP versions */
-#ifndef ZEND_PARSE_PARAMETERS_NONE
-#define ZEND_PARSE_PARAMETERS_NONE() \
-	ZEND_PARSE_PARAMETERS_START(0, 0) \
-	ZEND_PARSE_PARAMETERS_END()
-#endif
+#include <secp256k1.h>
+#include <secp256k1_extrakeys.h>
+#include <secp256k1_schnorrsig.h>
 
 PHP_FUNCTION(secp256k1_nostr_derive_pubkey)
 {
@@ -221,8 +214,6 @@ PHP_MINIT_FUNCTION(secp256k1_nostr)
 #if defined(ZTS) && defined(COMPILE_DL_SECP256K1_NOSTR)
 	ZEND_TSRMLS_CACHE_UPDATE();
 #endif
-
-	secp256k1_selftest();
 
 	if (sodium_init() < 0) {
 		return FAILURE;

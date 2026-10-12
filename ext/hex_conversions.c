@@ -16,7 +16,7 @@
 
 #include "php.h"
 
-#include "sodium.h"
+#include <sodium.h>
 
 zend_string *php_bin2hex(const unsigned char *bin, const size_t bin_len)
 {
